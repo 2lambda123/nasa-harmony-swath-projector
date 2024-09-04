@@ -9,6 +9,7 @@ class CustomError(Exception):
     """Base class for exceptions in the Swath Projector. This base class could
     be extended in the future to assign exit codes, for example.
 
+
     """
 
     def __init__(self, exception_type, message):
@@ -21,6 +22,7 @@ class MissingReprojectedDataError(CustomError):
     """This exception is raised when an expected single-band output file
     containing reprojected data for a science variable is not found by
     the `create_output` function in `nc_merge.py`.
+
 
     """
 
@@ -36,6 +38,7 @@ class MissingCoordinatesError(CustomError):
     variable is not found in dataset by the `get_coordinate_variable`
     function in `utilities.py`.
 
+
     """
 
     def __init__(self, missing_coordinate):
@@ -46,7 +49,7 @@ class MissingCoordinatesError(CustomError):
 
 
 class InvalidTargetGrid(CustomError):
-    """Raised when a request specifies an incomplete or invalid grid."""
+    """ """
 
     def __init__(self):
         super().__init__(

@@ -36,6 +36,13 @@ def reproject(
     source granule. Then reproject all science variables. Finally merge all
     individual output bands back into a single NetCDF-4 file.
 
+    :param message: Message: 
+    :param collection_short_name: str: 
+    :param granule_url: str: 
+    :param local_filename: str: 
+    :param temp_dir: str: 
+    :param logger: logging.Logger: 
+
     """
     parameters = get_parameters_from_message(message, granule_url, local_filename)
 
@@ -103,6 +110,10 @@ def get_parameters_from_message(
     granule, as downloaded by `harmony-service-lib-py` utility functions
     for transformation by this service.
 
+    :param message: Message: 
+    :param granule_url: str: 
+    :param input_file: str: 
+
     """
     parameters = {
         "crs": rgetattr(message, "format.crs", CRS_DEFAULT),
@@ -166,11 +177,21 @@ def rgetattr(obj, attr: str, *args):
     be assigned. Even though the `args` is often optional, in this case the
     default value *must* be defined.
 
+    :param obj: 
+    :param attr: str: 
+    :param *args: 
+
     """
 
     # functools.reduce will apply _getattr with previous result (obj)
     #   and item from sequence (attr)
     def _getattr(obj, attr):
+        """
+
+        :param obj: 
+        :param attr: 
+
+        """
         return getattr(obj, attr, *args)
 
     # First call takes first two items, thus need [obj] as first item in sequence

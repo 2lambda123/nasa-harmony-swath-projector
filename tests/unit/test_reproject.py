@@ -9,6 +9,7 @@ from swath_projector.reproject import (CRS_DEFAULT,
 
 
 class TestReproject(TestCase):
+    """ """
 
     @classmethod
     def setUpClass(cls):
@@ -51,6 +52,9 @@ class TestReproject(TestCase):
         are transferred to the top level of the parameters). There is a
         note in the code for clean-up to occur!
 
+        :param parameters: 
+        :param expected_parameters: 
+
         """
         for key, expected_value in expected_parameters.items():
             self.assertEqual(
@@ -60,6 +64,7 @@ class TestReproject(TestCase):
     def test_get_parameters_from_message_interpolation(self):
         """Ensure that various input messages can be correctly parsed, and
         that those missing raise the expected exceptions.
+
 
         """
         test_args = [
@@ -86,6 +91,7 @@ class TestReproject(TestCase):
     def test_get_parameters_error_5(self):
         """Ensure that, if parameters are set for the resolution and the
         dimensions, an exception is raised.
+
 
         """
         exception_snippet = "Insufficient or invalid target grid parameters."
@@ -131,6 +137,7 @@ class TestReproject(TestCase):
         """Ensure that an exception is raised if there is only one of either
         x_extent and y_extent or height and width set.
 
+
         """
         test_args = [
             ["height not width", {"height": self.height}],
@@ -155,6 +162,7 @@ class TestReproject(TestCase):
         SWOT Reprojection tool, sensible defaults are assigned for the
         extracted message parameters.
 
+
         """
         expected_parameters = self.default_parameters
 
@@ -167,6 +175,7 @@ class TestReproject(TestCase):
     def test_get_parameters_from_message_extents(self):
         """Ensure that if the `scaleExtent` is specified in the input
         Harmony message, the non-default extents are used.
+
 
         """
         expected_parameters = self.default_parameters
@@ -189,6 +198,7 @@ class TestReproject(TestCase):
         """Ensure that if the `scaleSize` is specified in the input Harmony
         message, the non-default resolutions are used.
 
+
         """
         expected_parameters = self.default_parameters
         expected_parameters["xres"] = self.x_res
@@ -204,6 +214,7 @@ class TestReproject(TestCase):
     def test_get_parameters_from_message_dimensions(self):
         """Ensure that if the `height` and `width` are specified in the input
         Harmony message, the non-default dimensions are used.
+
 
         """
         expected_parameters = self.default_parameters
@@ -221,13 +232,16 @@ class TestReproject(TestCase):
         """Ensure the utility function to recursively retrieve a class
         attribute will work as expected.
 
+
         """
 
         class ExampleInnerClass:
+            """ """
             def __init__(self):
                 self.interpolation = "bilinear"
 
         class ExampleOuterClass:
+            """ """
             def __init__(self):
                 self.user = "jglenn"
                 self.inner = ExampleInnerClass()
