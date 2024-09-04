@@ -1,6 +1,7 @@
 # Changelog
 
 ## [v1.1.0] - 2024-08-29
+
 ### Changed
 
 - [[DAS-1934](https://bugs.earthdata.nasa.gov/browse/DAS-1934)]
@@ -26,13 +27,13 @@ include updated documentation and files outlined by the
 
 Repository structure changes include:
 
-* Migrating `pymods` directory to `swath_projector`.
-* Migrating `swotrepr.py` to `swath_projector/adapter.py`.
-* Addition of `swath_projector/main.py`.
+- Migrating `pymods` directory to `swath_projector`.
+- Migrating `swotrepr.py` to `swath_projector/adapter.py`.
+- Addition of `swath_projector/main.py`.
 
 For more information on internal releases prior to NASA open-source approval,
 see legacy-CHANGELOG.md.
 
-[v1.1.0]:(https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.1)
-[v1.0.1]:(https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.1)
-[v1.0.0]:(https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.0)
+[v1.1.0]: (https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.1)
+[v1.0.1]: (https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.1)
+[v1.0.0]: (https://github.com/nasa/harmony-swath-projector/releases/tag/1.0.0)
