@@ -37,14 +37,16 @@ def reproject(
     individual output bands back into a single NetCDF-4 file.
 
     """
-    parameters = get_parameters_from_message(message, granule_url, local_filename)
+    parameters = get_parameters_from_message(
+        message, granule_url, local_filename)
 
     # Set up source and destination files
     temp_dir = mkdtemp()
     root_ext = os.path.splitext(os.path.basename(parameters.get('input_file')))
     output_file = temp_dir + os.sep + root_ext[0] + '_repr' + root_ext[1]
 
-    logger.info(f'Reprojecting file {parameters.get("input_file")} as {output_file}')
+    logger.info(
+        f'Reprojecting file {parameters.get("input_file")} as {output_file}')
     logger.info(
         f'Selected CRS: {parameters.get("crs")}\t'
         f'Interpolation: {parameters.get("interpolation")}'
