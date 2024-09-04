@@ -53,8 +53,8 @@ class TestReproject(TestCase):
         are transferred to the top level of the parameters). There is a
         note in the code for clean-up to occur!
 
-        :param parameters: 
-        :param expected_parameters: 
+        :param parameters:
+        :param expected_parameters:
 
         """
         for key, expected_value in expected_parameters.items():
