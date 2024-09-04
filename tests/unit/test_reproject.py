@@ -4,8 +4,9 @@ from unittest import TestCase
 from harmony.message import Message
 from pyproj import Proj
 
-from swath_projector.reproject import (CRS_DEFAULT,
-                                       get_parameters_from_message, rgetattr)
+from swath_projector.reproject import CRS_DEFAULT
+from swath_projector.reproject import get_parameters_from_message
+from swath_projector.reproject import rgetattr
 
 
 class TestReproject(TestCase):

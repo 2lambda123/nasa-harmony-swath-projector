@@ -1,5 +1,4 @@
 """ Data Services Swath Projector service for Harmony """
-
 import functools
 import logging
 import os
