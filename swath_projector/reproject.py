@@ -43,18 +43,18 @@ def reproject(
     :param logger: logging.Logger:
 
     """
-    parameters = get_parameters_from_message(message, granule_url, local_filename)
+    parameters = get_parameters_from_message(message, granule_url,
+                                             local_filename)
 
     # Set up source and destination files
     temp_dir = mkdtemp()
     root_ext = os.path.splitext(os.path.basename(parameters.get("input_file")))
     output_file = temp_dir + os.sep + root_ext[0] + "_repr" + root_ext[1]
 
-    logger.info(f'Reprojecting file {parameters.get("input_file")} as {output_file}')
     logger.info(
-        f'Selected CRS: {parameters.get("crs")}\t'
-        f'Interpolation: {parameters.get("interpolation")}'
-    )
+        f'Reprojecting file {parameters.get("input_file")} as {output_file}')
+    logger.info(f'Selected CRS: {parameters.get("crs")}\t'
+                f'Interpolation: {parameters.get("interpolation")}')
 
     try:
         var_info = VarInfoFromNetCDF4(
@@ -75,9 +75,8 @@ def reproject(
 
     # Loop through each dataset and reproject
     logger.debug("Using pyresample for reprojection.")
-    outputs = resample_all_variables(
-        parameters, science_variables, temp_dir, logger, var_info
-    )
+    outputs = resample_all_variables(parameters, science_variables, temp_dir,
+                                     logger, var_info)
 
     if not outputs:
         raise Exception("No variables could be reprojected")
@@ -98,9 +97,8 @@ def reproject(
     return output_file
 
 
-def get_parameters_from_message(
-    message: Message, granule_url: str, input_file: str
-) -> Dict:
+def get_parameters_from_message(message: Message, granule_url: str,
+                                input_file: str) -> Dict:
     """A helper function to parse the input Harmony message and extract
     required information. If the message is missing parameters, then
     default values will be used. The `granule_url` is taken from the
@@ -115,18 +113,26 @@ def get_parameters_from_message(
 
     """
     parameters = {
-        "crs": rgetattr(message, "format.crs", CRS_DEFAULT),
-        "granule_url": granule_url,
-        "input_file": input_file,
-        "interpolation": rgetattr(
-            message, "format.interpolation", INTERPOLATION_DEFAULT
-        ),
-        "x_extent": rgetattr(message, "format.scaleExtent.x", None),
-        "y_extent": rgetattr(message, "format.scaleExtent.y", None),
-        "width": rgetattr(message, "format.width", None),
-        "height": rgetattr(message, "format.height", None),
-        "xres": rgetattr(message, "format.scaleSize.x", None),
-        "yres": rgetattr(message, "format.scaleSize.y", None),
+        "crs":
+        rgetattr(message, "format.crs", CRS_DEFAULT),
+        "granule_url":
+        granule_url,
+        "input_file":
+        input_file,
+        "interpolation":
+        rgetattr(message, "format.interpolation", INTERPOLATION_DEFAULT),
+        "x_extent":
+        rgetattr(message, "format.scaleExtent.x", None),
+        "y_extent":
+        rgetattr(message, "format.scaleExtent.y", None),
+        "width":
+        rgetattr(message, "format.width", None),
+        "height":
+        rgetattr(message, "format.height", None),
+        "xres":
+        rgetattr(message, "format.scaleSize.x", None),
+        "yres":
+        rgetattr(message, "format.scaleSize.y", None),
     }
 
     parameters["projection"] = Proj(parameters["crs"])
@@ -136,9 +142,9 @@ def get_parameters_from_message(
 
     # when a user requests both a resolution and dimensions, then ensure the
     # extents are consistent.
-    if (parameters["xres"] is not None or parameters["yres"] is not None) and (
-        parameters["height"] is not None or parameters["width"] is not None
-    ):
+    if (parameters["xres"] is not None or parameters["yres"]
+            is not None) and (parameters["height"] is not None
+                              or parameters["width"] is not None):
         if not has_self_consistent_grid(message):
             raise InvalidTargetGrid()
 
@@ -163,9 +169,8 @@ def get_parameters_from_message(
 
     # Mark the properties that this service will use, so that downstream
     # services will not re-use them.
-    message.format.process(
-        "crs", "interpolation", "scaleExtent", "scaleSize", "height", "width"
-    )
+    message.format.process("crs", "interpolation", "scaleExtent", "scaleSize",
+                           "height", "width")
 
     return parameters
 

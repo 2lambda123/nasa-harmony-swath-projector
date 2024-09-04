@@ -29,7 +29,8 @@ class MissingReprojectedDataError(CustomError):
     def __init__(self, missing_variable):
         super().__init__(
             "MissingReprojectedDataError",
-            ("Could not find reprojected output file for " f"{missing_variable}."),
+            ("Could not find reprojected output file for "
+             f"{missing_variable}."),
         )
 
 
@@ -52,6 +53,5 @@ class InvalidTargetGrid(CustomError):
     """ """
 
     def __init__(self):
-        super().__init__(
-            "InvalidTargetGrid", "Insufficient or invalid target grid parameters."
-        )
+        super().__init__("InvalidTargetGrid",
+                         "Insufficient or invalid target grid parameters.")

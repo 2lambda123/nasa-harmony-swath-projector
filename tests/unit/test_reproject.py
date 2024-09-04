@@ -58,9 +58,8 @@ class TestReproject(TestCase):
 
         """
         for key, expected_value in expected_parameters.items():
-            self.assertEqual(
-                parameters[key], expected_value, f"Failing parameter: {key}"
-            )
+            self.assertEqual(parameters[key], expected_value,
+                             f"Failing parameter: {key}")
 
     def test_get_parameters_from_message_interpolation(self):
         """Ensure that various input messages can be correctly parsed, and
@@ -70,10 +69,18 @@ class TestReproject(TestCase):
         """
         test_args = [
             ["No interpolation", {}, self.default_interpolation],
-            ["Non default", {"interpolation": "ewa"}, "ewa"],
-            ["None interpolation", {"interpolation": None}, "ewa-nn"],
-            ["String None", {"interpolation": "None"}, "ewa-nn"],
-            ["Empty string", {"interpolation": ""}, "ewa-nn"],
+            ["Non default", {
+                "interpolation": "ewa"
+            }, "ewa"],
+            ["None interpolation", {
+                "interpolation": None
+            }, "ewa-nn"],
+            ["String None", {
+                "interpolation": "None"
+            }, "ewa-nn"],
+            ["Empty string", {
+                "interpolation": ""
+            }, "ewa-nn"],
         ]
 
         for description, format_attribute, expected_interpolation in test_args:
@@ -84,10 +91,10 @@ class TestReproject(TestCase):
                 }
                 message = Message(message_content)
                 parameters = get_parameters_from_message(
-                    message, self.granule_url, self.granule
-                )
+                    message, self.granule_url, self.granule)
 
-                self.assertEqual(parameters["interpolation"], expected_interpolation)
+                self.assertEqual(parameters["interpolation"],
+                                 expected_interpolation)
 
     def test_get_parameters_error_5(self):
         """Ensure that, if parameters are set for the resolution and the
@@ -120,15 +127,18 @@ class TestReproject(TestCase):
                 if has_x_res or has_y_res:
                     message_content["format"]["scaleSize"] = {}
                     if has_x_res:
-                        message_content["format"]["scaleSize"]["x"] = self.x_res
+                        message_content["format"]["scaleSize"][
+                            "x"] = self.x_res
 
                     if has_y_res:
-                        message_content["format"]["scaleSize"]["y"] = self.y_res
+                        message_content["format"]["scaleSize"][
+                            "y"] = self.y_res
 
                 message = Message(message_content)
 
                 with self.assertRaises(Exception) as context:
-                    get_parameters_from_message(message, self.granule_url, self.granule)
+                    get_parameters_from_message(message, self.granule_url,
+                                                self.granule)
                 self.assertTrue(
                     str(context.exception).endswith(exception_snippet),
                     f"Test Failed: {description}",
@@ -141,20 +151,36 @@ class TestReproject(TestCase):
 
         """
         test_args = [
-            ["height not width", {"height": self.height}],
-            ["width not height", {"width": self.width}],
-            ["x_extent not y_extent", {"scaleExtent": {"x": self.x_extent}}],
-            ["y_extent not x_extent", {"scaleExtent": {"y": self.y_extent}}],
+            ["height not width", {
+                "height": self.height
+            }],
+            ["width not height", {
+                "width": self.width
+            }],
+            ["x_extent not y_extent", {
+                "scaleExtent": {
+                    "x": self.x_extent
+                }
+            }],
+            ["y_extent not x_extent", {
+                "scaleExtent": {
+                    "y": self.y_extent
+                }
+            }],
         ]
 
         for description, format_content in test_args:
             with self.subTest(description):
-                message_content = {"granules": self.granules, "format": format_content}
+                message_content = {
+                    "granules": self.granules,
+                    "format": format_content
+                }
 
                 message = Message(message_content)
 
                 with self.assertRaises(Exception) as context:
-                    get_parameters_from_message(message, self.granule_url, self.granule)
+                    get_parameters_from_message(message, self.granule_url,
+                                                self.granule)
 
                 self.assertTrue("Missing" in str(context.exception))
 
@@ -168,9 +194,8 @@ class TestReproject(TestCase):
         expected_parameters = self.default_parameters
 
         message = Message({"granules": self.granules, "format": {}})
-        parameters = get_parameters_from_message(
-            message, self.granule_url, self.granule
-        )
+        parameters = get_parameters_from_message(message, self.granule_url,
+                                                 self.granule)
         self.assert_parameters_equal(parameters, expected_parameters)
 
     def test_get_parameters_from_message_extents(self):
@@ -185,14 +210,21 @@ class TestReproject(TestCase):
         expected_parameters["y_min"] = self.y_extent["min"]
         expected_parameters["y_max"] = self.y_extent["max"]
 
-        extents_format = {"scaleExtent": {"x": self.x_extent, "y": self.y_extent}}
-        message = Message({"granules": self.granules, "format": extents_format})
+        extents_format = {
+            "scaleExtent": {
+                "x": self.x_extent,
+                "y": self.y_extent
+            }
+        }
+        message = Message({
+            "granules": self.granules,
+            "format": extents_format
+        })
         expected_parameters["x_extent"] = message.format.scaleExtent.x
         expected_parameters["y_extent"] = message.format.scaleExtent.y
 
-        parameters = get_parameters_from_message(
-            message, self.granule_url, self.granule
-        )
+        parameters = get_parameters_from_message(message, self.granule_url,
+                                                 self.granule)
         self.assert_parameters_equal(parameters, expected_parameters)
 
     def test_get_parameters_from_message_resolutions(self):
@@ -206,10 +238,12 @@ class TestReproject(TestCase):
         expected_parameters["yres"] = self.y_res
 
         resolutions_format = {"scaleSize": {"x": self.x_res, "y": self.y_res}}
-        message = Message({"granules": self.granules, "format": resolutions_format})
-        parameters = get_parameters_from_message(
-            message, self.granule_url, self.granule
-        )
+        message = Message({
+            "granules": self.granules,
+            "format": resolutions_format
+        })
+        parameters = get_parameters_from_message(message, self.granule_url,
+                                                 self.granule)
         self.assert_parameters_equal(parameters, expected_parameters)
 
     def test_get_parameters_from_message_dimensions(self):
@@ -223,10 +257,12 @@ class TestReproject(TestCase):
         expected_parameters["width"] = self.height
 
         extents_format = {"height": self.height, "width": self.width}
-        message = Message({"granules": self.granules, "format": extents_format})
-        parameters = get_parameters_from_message(
-            message, self.granule_url, self.granule
-        )
+        message = Message({
+            "granules": self.granules,
+            "format": extents_format
+        })
+        parameters = get_parameters_from_message(message, self.granule_url,
+                                                 self.granule)
         self.assert_parameters_equal(parameters, expected_parameters)
 
     def test_rgetattr(self):
@@ -238,11 +274,13 @@ class TestReproject(TestCase):
 
         class ExampleInnerClass:
             """ """
+
             def __init__(self):
                 self.interpolation = "bilinear"
 
         class ExampleOuterClass:
             """ """
+
             def __init__(self):
                 self.user = "jglenn"
                 self.inner = ExampleInnerClass()
@@ -257,7 +295,10 @@ class TestReproject(TestCase):
             ["Property is None, default", "none", default],
             ["Absent attribute uses default", "absent", default],
             ["Absent nested attribute uses default", "inner.absent", default],
-            ["Absent outer for nested uses default", "absent.interpolation", default],
+            [
+                "Absent outer for nested uses default", "absent.interpolation",
+                default
+            ],
             [
                 "Outer present, but not object, uses default",
                 "user.interpolation",
@@ -268,5 +309,5 @@ class TestReproject(TestCase):
         for description, attribute_path, expected_value in test_args:
             with self.subTest(description):
                 self.assertEqual(
-                    rgetattr(example_object, attribute_path, default), expected_value
-                )
+                    rgetattr(example_object, attribute_path, default),
+                    expected_value)
